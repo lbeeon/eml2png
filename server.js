@@ -23,17 +23,20 @@ app.get('/:filename', function (req, res) {
   if (file === '') {
     return res.send('')
   }
-  let buffer = fs.readFileSync(file)
+
+  let filePath = path.join(__dirname, 'emls', file)
+  let buffer = fs.readFileSync(filePath)
   let bufferString = bufferToString(buffer)
 
   emlformat.parse(bufferString, function (error, data) {
     if (error) return console.log(error)
-    let content_type = data['headers']['Content-type'].split(';')[0].trim()
-    res.type(content_type)
+    let contentType = data['headers']['Content-type'].split(';')[0].trim()
+    res.type(contentType)
     res.send(new Buffer(data['body']))
   })
 })
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-})
+module.exports = app
+// app.listen(3000, function () {
+//   console.log('Example app listening on port 3000!')
+// })
