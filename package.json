@@ -1,0 +1,20 @@
+{
+  "name": "eml2jpg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eml-format": "^0.5.0",
+    "eml-to-pdf": "^1.0.4",
+    "express": "^4.16.3",
+    "iconv": "^2.3.0",
+    "mhtml": "^0.1.2",
+    "nightmare": "^3.0.1",
+    "node-icu-charset-detector": "^0.2.0"
+  }
+}
