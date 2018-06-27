@@ -9,12 +9,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "eml-format": "^0.5.0",
     "eml-to-pdf": "^1.0.4",
     "express": "^4.16.3",
     "iconv": "^2.3.0",
+    "jimp": "^0.2.28",
+    "mailparser": "github:kevincupp/mailparser",
     "mhtml": "^0.1.2",
     "nightmare": "^3.0.1",
-    "node-icu-charset-detector": "^0.2.0"
+    "node-icu-charset-detector": "^0.2.0",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2",
+    "request-promise-native": "^1.0.5",
+    "xvfb": "^0.2.3"
   }
 }

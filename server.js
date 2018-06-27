@@ -1,19 +1,19 @@
-var path = require('path')
-var express = require('express')
-var app = express()
+const path = require('path')
+const express = require('express')
+const app = express()
 
-var fs = require('fs')
-var emlformat = require('eml-format')
+const fs = require('fs')
+const simpleParser = require('mailparser').simpleParser
 
 function bufferToString (buffer) {
-  var charsetDetector = require('node-icu-charset-detector')
-  var charset = charsetDetector.detectCharset(buffer).toString()
+  const charsetDetector = require('node-icu-charset-detector')
+  const charset = charsetDetector.detectCharset(buffer).toString()
 
   try {
     return buffer.toString(charset)
   } catch (x) {
-    var Iconv = require('iconv').Iconv
-    var charsetConverter = new Iconv(charset, 'utf8')
+    const Iconv = require('iconv').Iconv
+    const charsetConverter = new Iconv(charset, 'utf8')
     return charsetConverter.convert(buffer).toString()
   }
 }
@@ -28,11 +28,25 @@ app.get('/:filename', function (req, res) {
   let buffer = fs.readFileSync(filePath)
   let bufferString = bufferToString(buffer)
 
-  emlformat.parse(bufferString, function (error, data) {
-    if (error) return console.log(error)
-    let contentType = data['headers']['Content-type'].split(';')[0].trim()
-    res.type(contentType)
-    res.send(new Buffer(data['body']))
+  simpleParser(bufferString, (err, data) => {
+    if (err) {
+      console.log(err)
+      return res.status(505).send('Not found')
+    }
+    let contentType = ''
+    if (data['html']) {
+      contentType = 'text/html'
+      res.type(contentType)
+      return res.send(Buffer.from(data['html']))
+    }
+
+    if (data['text']) {
+      contentType = 'text/html'
+      res.type(contentType)
+      return res.send(Buffer.from(data['text']))
+    }
+
+    return res.status(505).send('Not found')
   })
 })
 
