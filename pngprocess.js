@@ -12,6 +12,11 @@ module.exports = async function () {
 
   let count = 0
   let promises = []
+  if (files.length === 0) {
+    console.log('No eml file!!')
+    process.exit(0)
+  }
+
   for (let i = 0, len = files.length; i < len; i++) {
     try {
       count += 1
